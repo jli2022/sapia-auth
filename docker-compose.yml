@@ -1,0 +1,36 @@
+version: '3'
+services:
+  users:
+    image: users
+    networks:
+      - sapia_network
+    build:
+      context: .
+      dockerfile: apps/users/Dockerfile
+    command: npm run start:dev users
+    ports:
+      - '3020:3020'
+      - '3021:3021'
+    env_file:
+      - apps/users/.env
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+  auth:
+    image: auth
+    networks:
+      - sapia_network
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+    command: npm run start:dev auth
+    ports:
+      - '3010:3010'
+    env_file:
+      - ./apps/auth/.env
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+networks:
+  sapia_network:
+    driver: bridge
