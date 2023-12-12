@@ -6,68 +6,76 @@
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
   <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
+    <p align="center"></p>
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This is a small code challenge for [Nest](https://github.com/nestjs/nest)
 
-## Installation
+## Stories:
+
+1. A user can login with a username and password
+2. Return success and a JWT token if username and password are correct
+3. Return fail if username and password are not matched
+4. A user has a maximum of 3 attempts within 5 minutes, otherwise, the user will be locked.
+5. Return fail if a user is locked
+
+## Requirements:
+
+1. Use Nest.js framework and typescript is required.
+2. Use MongoDB (You can design your own data structure, just create your own seed data.
+   No need to do user signup).
+3. Unit testing is required
+4. Integration testing is required
+5. Dockerize your code and your database
+6. Upload your project to github and write a proper readme
+
+## Implementation:
+
+1. Use Nest.js framework and typescript.
+2. The feature satisfies the user stories mentioned above.
+3. Utilising [Atlas](https://www.mongodb.com/atlas/database) as the cloud database.
+4. Try to add an user module to POC on
+   1. microservice architecture
+   2. validate generated JWT token for authentication. 
+5. Try to add a rabbitmq module to POC on event driven architecture.
+6. Dockerized the apps.
+
+## Give a play in local:
+
+Clone the repo, in project folder run commands to start the app.
 
 ```bash
-$ yarn install
+# start apps in docker
+$ docker-compose up --build -V
+
+# run below command, or using postman
+$ curl --location 'http://localhost:3010/auth/login' \
+--header 'Content-Type: application/json' \
+--data '{
+    "username": "userA",
+    "password": "password"
+}'
 ```
 
-## Running the app
+## Known defect:
 
-```bash
-# development
-$ yarn run start
+Time is up. The following items are taking as known defect, might work on it soon later
+1. UT coverage is not ideal, and not designed thoroughly yet.
+2. Integration testing is not really implemented yet. 
 
-# watch mode
-$ yarn run start:dev
+## To Do: 
 
-# production mode
-$ yarn run start:prod
-```
+Really planned to pick up, but time run out, will try out later for fun.
+1. Set up proper integration testing
+2. Add more UT coverage
+3. Generate API document from code. [OpenAPI](https://docs.nestjs.com/openapi/introduction')
+4. Event Driven Architecture. [KAFKA](https://docs.nestjs.com/microservices/kafka)
+5. CI/CD pipeline
+6. Cloud hosting (ECS/EKS/K8S)
 
-## Test
+## License - N/A
 
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+This is a code challenge for Nest.js 

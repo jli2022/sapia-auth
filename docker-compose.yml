@@ -7,12 +7,13 @@ services:
     build:
       context: .
       dockerfile: apps/users/Dockerfile
+      target: development
     command: npm run start:dev users
     ports:
       - '3020:3020'
       - '3021:3021'
     env_file:
-      - apps/users/.env
+      - apps/users/.env.docker
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -23,11 +24,12 @@ services:
     build:
       context: .
       dockerfile: ./apps/auth/Dockerfile
+      target: development
     command: npm run start:dev auth
     ports:
       - '3010:3010'
     env_file:
-      - ./apps/auth/.env
+      - ./apps/auth/.env.docker
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
