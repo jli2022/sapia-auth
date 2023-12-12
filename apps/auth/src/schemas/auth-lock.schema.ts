@@ -6,7 +6,7 @@ export class AuthLock extends AbstractDocument {
   @Prop({ required: true })
   userId: string;
 
-  @Prop()
+  @Prop({ required: false })
   lockExpiredAt: Date;
 
   @Prop()

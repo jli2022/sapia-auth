@@ -2,12 +2,12 @@ import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { UserLoginRequestDto } from './dto/user-login-request.dto';
-import { UsersMsClient } from './msClients/users-ms-client';
 import { lastValueFrom } from 'rxjs';
 import { AuthLockRepository } from './auth-lock.repository';
 import { AuthLock } from './schemas/auth-lock.schema';
 import * as bcrypt from 'bcrypt';
 import { User } from '../../users/src/schemas/user.schema';
+import { UsersMicroserviceClient } from '../../users/src/users-microservice-client.service';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +16,7 @@ export class AuthService {
   constructor(
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
-    private usersMsClient: UsersMsClient,
+    private usersMsClient: UsersMicroserviceClient,
     private authLockRepository: AuthLockRepository,
   ) {}
 
@@ -30,14 +30,11 @@ export class AuthService {
       this.usersMsClient.getUserByUsername(username),
     );
     if (!user) {
-      this.logger.debug('User not found by username: ${username}');
       throw new UnauthorizedException('Credentials are not valid.');
     }
-    this.logger.log(user);
     let authLock = await this.authLockRepository.findOne({
       userId: user._id.toString(),
     });
-    this.logger.log(authLock);
     if (!authLock) {
       authLock = await this.authLockRepository.create({
         failedAttempts: [],
@@ -49,7 +46,7 @@ export class AuthService {
     const isLocking =
       authLock.lockExpiredAt && authLock.lockExpiredAt > new Date();
     if (isLocking) {
-      this.logger.log('isLocking', authLock.lockExpiredAt);
+      this.logger.debug('isLocking', authLock.lockExpiredAt);
       throw new UnauthorizedException('This user had been locked.');
     } else {
       if (authLock.lockExpiredAt) authLock = await this.unLockUser(authLock);
@@ -71,7 +68,7 @@ export class AuthService {
       {
         $set: {
           failedAttempts: [],
-          lockExpiredAt: undefined,
+          lockExpiredAt: null,
         },
       },
     );
@@ -87,7 +84,7 @@ export class AuthService {
       AuthService.isThirdFailedLogingAttemptsInFiveMinutes(authLock);
 
     if (needLockAccount) {
-      this.logger.log('locked now', authLock.failedAttempts);
+      this.logger.debug('locked now', authLock.failedAttempts);
       const lockExpiredAt = new Date();
       lockExpiredAt.setMinutes(lockExpiredAt.getMinutes() + 1);
       await this.authLockRepository.findOneAndUpdate(
@@ -100,7 +97,7 @@ export class AuthService {
       );
       throw new UnauthorizedException('This user had been locked.');
     } else {
-      this.logger.log('adding attmpts', authLock.failedAttempts);
+      this.logger.debug('adding attmpts', authLock.failedAttempts);
       await this.authLockRepository.findOneAndUpdate(
         {
           userId: authLock.userId,

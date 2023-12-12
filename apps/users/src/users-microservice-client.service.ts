@@ -8,10 +8,10 @@ import {
   USERS_SEARCH_BY_USERID,
   USERS_SEARCH_BY_USERNAME,
 } from '@app/common/constants/microservice.commands';
-import { User } from '../../../users/src/schemas/user.schema';
+import { User } from './schemas/user.schema';
 
 @Injectable()
-export class UsersMsClient {
+export class UsersMicroserviceClient {
   private client: ClientProxy;
 
   constructor() {

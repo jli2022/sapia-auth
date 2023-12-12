@@ -9,7 +9,7 @@ import { User, UserSchema } from './schemas/user.schema';
 import { UsersRepository } from './users.repository';
 import { AuthService } from '../../auth/src/auth.service';
 import { JwtModule } from '@nestjs/jwt';
-import { UsersMsClient } from '../../auth/src/msClients/users-ms-client';
+import { UsersMicroserviceClient } from './users-microservice-client.service';
 import { AuthLockRepository } from '../../auth/src/auth-lock.repository';
 import {
   AuthLock,
@@ -49,7 +49,7 @@ import { JwtStrategy } from '../../auth/src/strategies/jwt.strategy';
     UsersRepository,
     AuthService,
     AuthLockRepository,
-    UsersMsClient,
+    UsersMicroserviceClient,
     JwtStrategy,
   ],
 })

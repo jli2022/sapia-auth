@@ -14,7 +14,6 @@ export class UsersRepository extends AbstractRepository<User> {
 
   async deleteAll() {
     await this.model.deleteMany({});
-    this.logger.warn('All Users had been deleted. ');
   }
 
   async findById(userId: string): Promise<User> {

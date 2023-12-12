@@ -13,6 +13,5 @@ export class AuthLockRepository extends AbstractRepository<AuthLock> {
   }
   async deleteAll() {
     await this.model.deleteMany({});
-    this.logger.warn('All AuthLock had been deleted. ');
   }
 }

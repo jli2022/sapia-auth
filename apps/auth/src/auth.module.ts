@@ -6,7 +6,7 @@ import * as Joi from 'joi';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { LocalStrategy } from './strategies/local.strategy';
-import { UsersMsClient } from './msClients/users-ms-client';
+import { UsersMicroserviceClient } from '../../users/src/users-microservice-client.service';
 import { AuthLockRepository } from './auth-lock.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthLock, AuthLockSchema } from './schemas/auth-lock.schema';
@@ -37,7 +37,12 @@ import { AuthLock, AuthLockSchema } from './schemas/auth-lock.schema';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, AuthLockRepository, LocalStrategy, UsersMsClient],
+  providers: [
+    AuthService,
+    AuthLockRepository,
+    LocalStrategy,
+    UsersMicroserviceClient,
+  ],
 })
 export class AuthModule {
   constructor(private readonly authService: AuthService) {}
